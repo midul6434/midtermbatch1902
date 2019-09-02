@@ -1,5 +1,7 @@
 package accounts;
 
+import java.sql.SQLException;
+
 public class App {
 
     /**
@@ -8,7 +10,11 @@ public class App {
      *
      * */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    SalaryCalulator salaryCalulator = new SalaryCalulator();
+       salaryCalulator.Employee();
+       salaryCalulator.connection("employess","Salary");
+       ;
 
     }
 }

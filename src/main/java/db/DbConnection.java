@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 
 public class DbConnection {
+
 
     /**
      *
@@ -140,12 +142,13 @@ public class DbConnection {
      * Insert data to a existing table
      *
      * */
-    public static void insertDataFromArrayListToMySql(List<String> list,String tableName, String columnName)
+    public static void insertDataFromArrayListToMySql(List<String> list,String tableName,String columnName)
     {
         try {
             connectMySql();
 
             for(String st:list){
+
                 ps = connect.prepareStatement("INSERT INTO "+tableName+" ( "+columnName+" ) VALUES(?)");
                 ps.setObject(1,st);
                 ps.executeUpdate();
@@ -161,5 +164,6 @@ public class DbConnection {
     }
 
 
-}
+    }
+
 
