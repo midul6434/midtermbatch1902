@@ -9,7 +9,8 @@ import java.util.Scanner;
 public class DataReader {
 
 	public static void main(String[] args) {
-
+		noname();
+	}
 		/**
 		 * Use API to read the below textFile and print to console.
 		 * /src/main/resources/Key-To-Success
@@ -17,6 +18,7 @@ public class DataReader {
 		 * Use try....catch block to handle Exception.
 		 * Use ForEach loop/while loop/Iterator to retrieve data.
 		 */
+		public static void noname(){
 		File file = new File("/Users/midul/IdeaProjects/midtermbatch1902/src/main/resources/Key-To-Success");
 		try{
 		FileReader fileReader = new FileReader(file);

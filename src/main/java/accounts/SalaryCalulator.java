@@ -29,7 +29,7 @@ public class SalaryCalulator {
 
     }
 
-    public  void Employee(){
+    public String Employee(){
         String name;
         double monthlysalary,yearlysalary;
         int perhour = 0,hour,tax;
@@ -47,13 +47,9 @@ public class SalaryCalulator {
         System.out.println("Yearly salary");
         yearlysalary=monthlysalary*12;
         System.out.println(yearlysalary);
-       
 
 
-
-
-
-
+        return name;
     }
 
 

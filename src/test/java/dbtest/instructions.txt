@@ -1,1 +1,0 @@
-Create necessary class to do unit test of db package.
