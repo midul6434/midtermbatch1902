@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="testng-6.14.31">
+  <library name="testng-6.11">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/testng-6.14.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/librarryforjar/testng-6.11.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
