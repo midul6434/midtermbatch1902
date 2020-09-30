@@ -17,7 +17,7 @@ public class DuplicateWord {
 
       String   st = "Java is a programming Language. Java is also an Island of Indonesia. Java is widely used language";
     String[] stairway = st.split(" ");
-    HashMap<String,Integer> map = new HashMap<>();
+    HashMap<String,Integer> map = new HashMap<String, Integer>();
     for(String str : stairway) {
         if (map.containsKey(str)) {
             map.put(str, map.get(str)+1);

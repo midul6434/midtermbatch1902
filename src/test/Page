@@ -1,0 +1,124 @@
+package DriverDemo;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
+
+public class WebBrowsing {
+    public static final String Browserstack_username = System.getProperty("midultalukder1");
+    public static final String Browserstack_pass = System.getProperty("rL844FKMzNyYDypow1tj");
+
+    public static final String Sauselab_Username = null;
+    public static final String Sauselab_pass = null;
+
+    public static WebDriver driver = null;
+
+    @Parameters({"url", "cloudEnvName", "useCloudEnv", "os", "os_version", "browserName", "BrowseVersion"})
+    @BeforeMethod
+    public void setup(@Optional("www.google.com") String url, @Optional("false") String cloudEnvName, @Optional("false") boolean useCloudEnv,
+                      @Optional("www.google.com") String os, String os_version,@Optional("FireFox") String browserName, @Optional("https:www.google.com") String BrowseVersion) throws IOException {
+        //System.setProperty("webdriver.chrome.driver", "/Users/midul/IdeaProjects/Selenium_Framwork/generic/src/Driver/chromedriver");
+        //driver = new ChromeDriver();
+        if (useCloudEnv == true) {
+            if (cloudEnvName.equalsIgnoreCase("browserstack")) {
+                getCloudDriver(cloudEnvName, Browserstack_username, Browserstack_pass, os, os_version, browserName, BrowseVersion);
+            } else if (cloudEnvName.equalsIgnoreCase("SauseLab")) {
+                getCloudDriver(cloudEnvName, Sauselab_Username, Sauselab_pass, os, os_version, browserName, BrowseVersion);
+            }
+        } else {
+            getLocalDriver(browserName, os);
+
+        }
+       driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+       driver.manage().timeouts().pageLoadTimeout(45,TimeUnit.SECONDS);
+
+       driver.get(url);
+
+    }
+
+    public WebDriver getLocalDriver(String browserName, String os) {
+        if (browserName.equalsIgnoreCase("chrome")) {
+            ChromeOptions obj= new ChromeOptions();
+            obj.addArguments("--start-maximized ");
+            obj.addArguments("--incognito");
+            obj.addArguments("--ignore-certificate-errors");
+            DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
+            desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, obj);
+            if (os.equalsIgnoreCase("Windows")) {
+            System.setProperty("webdriver.chrome.driver", "../generic/src/Driver/Windows/chromedriver.exe");
+
+        } else if (os.equalsIgnoreCase("Mac")) {
+            System.setProperty("webdriver.chrome.driver", "..generic/src/Driver/chromedriver");
+
+        }
+
+    }
+
+
+else if(browserName.equalsIgnoreCase("FireFox"))
+
+    {
+        FirefoxOptions Options = new FirefoxOptions();
+        Options.addArguments("--start-maximized ");
+        Options.addArguments("--private");
+        Options.addArguments("--ignore-certificate-errors-spki-list ");
+        DesiredCapabilities desiredCapabilities = DesiredCapabilities.firefox();
+        desiredCapabilities.setCapability(FirefoxOptions.FIREFOX_OPTIONS, Options);
+        if (os.equalsIgnoreCase("Windows")) ;
+        System.setProperty("webdriver.gecko.driver", "../generic/src/Driver/Windows/geckodriver.exe");
+
+    }
+        else if(os.equalsIgnoreCase("Mac"))
+
+    {
+        System.setProperty("webdriver.gecko.driver", "../generic/src/Driver/Mac/geckodriver");
+
+    }
+
+
+
+       return driver;
+}
+
+  public  WebDriver getCloudDriver(String cloudEnvName, String browserstack_username, String browserstack_pass, String os, String os_version, String browserNme, String browseVersion) throws MalformedURLException {
+
+      DesiredCapabilities caps = new DesiredCapabilities();
+      caps.setCapability("browser", browserNme);
+      caps.setCapability("browser_version",browseVersion);
+      caps.setCapability("os", os);
+      caps.setCapability("os_version", os_version);
+
+
+      if (cloudEnvName.equalsIgnoreCase("Saucelabs")) {
+          driver = new RemoteWebDriver(new URL("http://" + Sauselab_Username + ":" + Sauselab_pass + "@ondemand.saucelabs.com:80/wd/hub"), caps);
+
+      } else if (cloudEnvName.equalsIgnoreCase("Browserstack")) {
+
+          caps.setCapability("resolution", "1024x768");
+
+          driver = new RemoteWebDriver(new URL("https://" + Browserstack_username + ":" + Browserstack_pass + "@hub-cloud.browserstack.com/wd/hub"), caps);
+      }
+    return driver;
+    }
+
+
+    @AfterMethod
+    public void teardown(){
+        driver.quit();
+    }
+
+
+}
